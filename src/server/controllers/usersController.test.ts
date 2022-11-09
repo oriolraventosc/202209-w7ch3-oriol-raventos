@@ -1,15 +1,9 @@
-import enviroment from "../../loadEnviroment";
 import type { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 import mockUser from "../../mocks/mockUser.js";
 import { userRegister } from "../controllers/usersController.js";
 import CustomError from "../customError/customError.js";
-
-beforeEach(async () => {
-  await mongoose.disconnect();
-  await mongoose.connect(enviroment.mongodbUrl);
-  jest.clearAllMocks();
-});
+import { User } from "../../database/models/Users/Users";
 
 afterAll(async () => {
   await mongoose.connection.close();
@@ -30,7 +24,7 @@ describe("Given a userRegister controller", () => {
       const req: Partial<Request> = {
         body: mockUser,
       };
-
+      User.create = jest.fn().mockResolvedValue(mockUser);
       await userRegister(req as Request, res as Response, null);
 
       expect(res.status).toHaveBeenCalledWith(expectedStatus);
