@@ -1,7 +1,19 @@
+import enviroment from "../../loadEnviroment";
 import type { NextFunction, Request, Response } from "express";
-import mockUser from "../../mocks/mockUser";
-import { userRegister } from "../controllers/usersController";
-import CustomError from "../customError/customError";
+import mongoose from "mongoose";
+import mockUser from "../../mocks/mockUser.js";
+import { userRegister } from "../controllers/usersController.js";
+import CustomError from "../customError/customError.js";
+
+beforeEach(async () => {
+  await mongoose.disconnect();
+  await mongoose.connect(enviroment.mongodbUrl);
+  jest.clearAllMocks();
+});
+
+afterAll(async () => {
+  await mongoose.connection.close();
+});
 
 const res: Partial<Response> = {
   status: jest.fn().mockReturnThis(),
