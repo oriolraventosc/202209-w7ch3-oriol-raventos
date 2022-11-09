@@ -1,7 +1,9 @@
 import enviroment from "./loadEnviroment.js";
 import startServer from "./server/index.js";
+import connectToDatabase from "./database/index.js";
 
-const { port } = enviroment;
+const { port, mongodbUrl } = enviroment;
 
 // eslint-disable-next-line no-implicit-coercion
 await startServer(+port);
+await connectToDatabase(mongodbUrl);
