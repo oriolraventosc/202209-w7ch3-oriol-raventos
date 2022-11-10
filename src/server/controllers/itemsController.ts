@@ -35,7 +35,11 @@ export const loadItems = async (
   }
 };
 
-export const createItem = (req: Request, res: Response, next: NextFunction) => {
+export const createItem = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { owner, name } = req.body as ItemStructure;
   try {
     if (!owner || !name) {
@@ -48,7 +52,7 @@ export const createItem = (req: Request, res: Response, next: NextFunction) => {
       return;
     }
 
-    const newItem = Item.create({
+    const newItem = await Item.create({
       owner,
       name,
     });
