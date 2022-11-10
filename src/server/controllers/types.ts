@@ -13,3 +13,8 @@ export interface UserTokenPayload extends JwtPayload {
 export interface CustomRequest extends Request {
   id: string;
 }
+
+export interface ItemStructure extends Request {
+  owner: string;
+  name: string;
+}
