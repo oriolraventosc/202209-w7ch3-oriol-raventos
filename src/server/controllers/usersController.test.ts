@@ -1,3 +1,4 @@
+import enviroment from "../../loadEnviroment.js";
 import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
@@ -14,7 +15,7 @@ const res: Partial<Response> = {
 
 const tokenPayload = {};
 
-const token = jwt.sign(tokenPayload, process.env.JWT_SECRET_KEY);
+const token = jwt.sign(tokenPayload, enviroment.jwtSecretKey);
 
 const next = jest.fn();
 
