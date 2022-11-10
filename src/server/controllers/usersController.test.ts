@@ -1,13 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
-import mongoose from "mongoose";
 import mockUser from "../../mocks/mockUser.js";
 import { userRegister } from "../controllers/usersController.js";
 import CustomError from "../customError/customError.js";
 import { User } from "../../database/models/Users/Users";
-
-afterAll(async () => {
-  await mongoose.connection.close();
-});
 
 const res: Partial<Response> = {
   status: jest.fn().mockReturnThis(),
@@ -41,6 +36,42 @@ describe("Given a userRegister controller", () => {
 
       const req: Partial<Request> = {
         body: { ...mockUser, username: "" },
+      };
+
+      await userRegister(req as Request, res as Response, next as NextFunction);
+
+      expect(next).toHaveBeenCalledWith(customError);
+    });
+  });
+
+  describe("When it receives a response without paco's password", () => {
+    test("Then it should call it's method next", async () => {
+      const customError = new CustomError(
+        "Error registering",
+        400,
+        "Missing credentials"
+      );
+
+      const req: Partial<Request> = {
+        body: { ...mockUser, password: "" },
+      };
+
+      await userRegister(req as Request, res as Response, next as NextFunction);
+
+      expect(next).toHaveBeenCalledWith(customError);
+    });
+  });
+
+  describe("When it receives a response without paco's email", () => {
+    test("Then it should call it's method next", async () => {
+      const customError = new CustomError(
+        "Error registering",
+        400,
+        "Missing credentials"
+      );
+
+      const req: Partial<Request> = {
+        body: { ...mockUser, email: "" },
       };
 
       await userRegister(req as Request, res as Response, next as NextFunction);
