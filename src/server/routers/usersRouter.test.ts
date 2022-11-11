@@ -25,9 +25,29 @@ describe("Given a POST /users/register endpoint", () => {
       const response = await request(app)
         .post("/users/register")
         .send(userdata)
-        .expect(201);
+        .expect(expectedStatus);
 
       expect(response.status).toHaveBeenCalledWith(expectedStatus);
+    });
+  });
+});
+
+describe("Given a POST /users/login endpoint", () => {
+  const userdata = {
+    username: "Marcel",
+    password: "marcel2",
+    email: "marcel2@gmail.com",
+  };
+  describe("When it receives a request with username 'Marcel' and password 'marcel2' and email 'marcel2@gmail.com'", () => {
+    test("Then it should respond with a 200 status and return the token", async () => {
+      const expectedStatus = 200;
+
+      const response = await request(app)
+        .post("/users/login")
+        .send(userdata)
+        .expect(expectedStatus);
+
+      expect(response.body).toHaveProperty("accessToken");
     });
   });
 });
