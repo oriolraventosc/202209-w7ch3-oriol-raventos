@@ -27,7 +27,7 @@ describe("Given a POST /users/register endpoint", () => {
         .send(userdata)
         .expect(expectedStatus);
 
-      expect(response.status).toHaveBeenCalledWith(expectedStatus);
+      expect(response.body).toStrictEqual({});
     });
   });
 });
