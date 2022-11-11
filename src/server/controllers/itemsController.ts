@@ -1,6 +1,8 @@
 import enviroment from "../../loadEnviroment.js";
 import type { Request, Response, NextFunction } from "express";
 import chalk from "chalk";
+import fs from "fs/promises";
+import path from "path";
 import debugCreator from "debug";
 import type { ItemStructure } from "./types.js";
 import CustomError from "../customError/customError.js";
@@ -40,7 +42,12 @@ export const createItem = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { owner, name, image } = req.body as ItemStructure;
+  const { owner, name } = req.body as ItemStructure;
+
+  await fs.rename(
+    path.join("assets", "images", req.file.filename),
+    path.join("assets", "images", req.file.originalname)
+  );
   try {
     if (!owner || !name) {
       const customError = new CustomError(
@@ -55,10 +62,10 @@ export const createItem = async (
     const newItem = await Item.create({
       owner,
       name,
-      image,
+      image: req.file.filename,
     });
 
-    res.status(201).json(newItem);
+    res.status(201).json({ newItem, image: `assets/images/${newItem.image}` });
     debug(chalk.greenBright(`Item ${name} registered!`));
   } catch (error: unknown) {
     next(error);
