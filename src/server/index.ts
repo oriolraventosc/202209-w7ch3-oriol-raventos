@@ -8,7 +8,7 @@ const debug = debugCreator(`${enviroment.debug}server`);
 const startServer = async (port: number) => {
   await new Promise((resolve, reject) => {
     const server = app.listen(port, () => {
-      debug(chalk.green("Server listening!"));
+      debug(chalk.green(`Server listening on port ${enviroment.port}!`));
       resolve(server);
     });
     server.on("error", (error: Error) => {
