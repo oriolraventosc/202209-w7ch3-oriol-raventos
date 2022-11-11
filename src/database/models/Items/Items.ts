@@ -8,6 +8,9 @@ const itemSchema = new Schema({
   name: {
     type: String,
   },
+  image: {
+    type: String,
+  },
 });
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
