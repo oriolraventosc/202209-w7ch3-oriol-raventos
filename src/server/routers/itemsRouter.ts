@@ -6,7 +6,7 @@ import itemsValidation from "../schemas/itemsSchema.js";
 // eslint-disable-next-line new-cap
 const itemsRouter = express.Router();
 
-itemsRouter.get("/list", validate(itemsValidation), loadItems);
+itemsRouter.get("/list", loadItems);
 
 itemsRouter.post("/create", validate(itemsValidation), createItem);
 
