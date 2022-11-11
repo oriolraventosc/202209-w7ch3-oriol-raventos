@@ -10,7 +10,7 @@ export interface UserTokenPayload extends JwtPayload {
   username: string;
 }
 
-export interface CustomRequest extends Request {
+export interface CustomRequest {
   userId: string;
 }
 
