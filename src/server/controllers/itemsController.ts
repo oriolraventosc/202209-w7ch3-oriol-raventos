@@ -1,7 +1,5 @@
 import enviroment from "../../loadEnviroment.js";
 import type { Request, Response, NextFunction } from "express";
-import fs from "fs/promises";
-import path from "path";
 import chalk from "chalk";
 import debugCreator from "debug";
 import type { ItemStructure } from "./types.js";
@@ -42,11 +40,7 @@ export const createItem = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { owner, name } = req.body as ItemStructure;
-  await fs.rename(
-    path.join("assets", "images", req.file.filename),
-    path.join("assets", "images", req.file.originalname)
-  );
+  const { owner, name, image } = req.body as ItemStructure;
   try {
     if (!owner || !name) {
       const customError = new CustomError(
@@ -61,7 +55,7 @@ export const createItem = async (
     const newItem = await Item.create({
       owner,
       name,
-      image: req.file.filename,
+      image,
     });
 
     res.status(201).json(newItem);

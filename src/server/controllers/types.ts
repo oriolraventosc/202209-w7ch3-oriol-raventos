@@ -17,4 +17,5 @@ export interface CustomRequest extends Request {
 export interface ItemStructure extends Request {
   owner: string;
   name: string;
+  image: string;
 }
